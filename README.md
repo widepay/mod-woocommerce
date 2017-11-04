@@ -26,7 +26,9 @@ Para configuração do Wide Pay é preciso que pelo menos os 3 campos obrigatór
 
 |Campo|Obrigatório|Descrição|
 |--- |--- |--- |
-|Title:|Sim|Cobrança criada, e está aguardando pagamento|
+|Title|Sim|Nome do método de pagamento que será exibido no checkout|
+|Descrição|Sim|Descrição do método de pagamento que será exibido no checkout|
+|Item na fatura|Sim|Descrição do item presente na fatura Wide Pay|
 |ID da Carteira Wide Pay |Sim |Preencha este campo com o ID da carteira que deseja receber os pagamentos do sistema. O ID de sua carteira estará presente neste link: https://www.widepay.com/conta/configuracoes/carteiras|
 |Token da Carteira Wide Pay|Sim|Preencha com o token referente a sua carteira escolhida no campo acima. Clique no botão: "Integrações" na página do Wide Pay, será exibido o Token|
 |Taxa de Variação|Não|O valor final da fatura será recalculado de acordo com este campo.|

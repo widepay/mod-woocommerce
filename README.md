@@ -40,17 +40,3 @@ Para configuração do Wide Pay é preciso que pelo menos os 3 campos obrigatór
 |Campo referente ao CPF e CNPJ|Não|Preencha com o ID do campo personalizado para evitar que o cliente digite todas às vezes ao gerar o boleto na página Wide Pay.|
 |Login Admin WHMCS|**Sim**|Cobrança criada, e está aguardando pagamento|
 
-# Configuração do Campo Personalizado CPF/CNPJ
-
-Configurando o campo personalizado CPF e CNPJ evitamos que o cliente preencha toda vez na página Wide Pay esta informação. Ela é obrigatória para gerar o boleto ao cliente embora o campo não seja obrigatório nas configurações do plugin.
-
-## Criando Campo Personalizado CPF/CNPJ
-
-Caso não possua o campo em seu sistema é preciso adicioná-lo. Para isto acesse o menu:
-
-* Inglês: Setup -> Custom Client Fields -> Add New Custom Field.
-* Portugues: Opções -> Campos Personalizados dos Clientes -> Adicionar Novo Campo Personalizado.
-
-Preencha os campos: Nome do Campo, Tipo do Campo. Também marque as opções: Campo Obrigatório, Mostrar no Formulário de Pedido e Exibir na Fatura. Quando as opções estiverem completas, clique em "Salvar Alterações".
-
-Retorne ao menu de configuração Wide Pay, lá estará listado o ID do campo personalizado que criamos. Copie e cole o ID em "Campo referente ao CPF e CNPJ".

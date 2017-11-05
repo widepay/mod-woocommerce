@@ -34,9 +34,6 @@ Para configuração do Wide Pay é preciso que pelo menos os 3 campos obrigatór
 |Taxa de Variação|Não|O valor final da fatura será recalculado de acordo com este campo.|
 |Tipo da Taxa de Variação|Não|O campo acima "Taxa de Variação" será aplicado de acordo com este campo.|
 |Acréscimo de Dias no Vencimento|Não|Qual a quantidade de dias para o vencimento após a data da geração da fatura.|
-|Permitir que Wide Pay envie e-mails|Não|Wide Pay enviará e-mail com boleto para o cliente após fatura gerada|
 |Configuração de Multa|Não|Configuração de multa após o vencimento, máximo 20|
 |Configuração de Juros|Não|Configuração de juros após o vencimento, máximo 20|
-|Campo referente ao CPF e CNPJ|Não|Preencha com o ID do campo personalizado para evitar que o cliente digite todas às vezes ao gerar o boleto na página Wide Pay.|
-|Login Admin WHMCS|**Sim**|Cobrança criada, e está aguardando pagamento|
 

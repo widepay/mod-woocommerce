@@ -22,7 +22,7 @@ A configuração do Plugin Wide Pay pode ser encontrada no menu: Wordpress -> Pl
 
 
 
-Para configuração do Wide Pay é preciso que pelo menos os 3 campos obrigatórios sejam preenchidos. Segue a lista dos campos e descrição.
+Para configuração do Wide Pay é preciso que pelo menos os 5 campos obrigatórios sejam preenchidos. Segue a lista dos campos e descrição.
 
 |Campo|Obrigatório|Descrição|
 |--- |--- |--- |

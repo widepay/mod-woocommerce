@@ -2,7 +2,7 @@
 Contributors: gabrielpasche
 Donate link: http://widepay.com/
 Tags: ecommerce, woocommerce, widepay
-Requires at least: 4.0
+Requires at least: 4.1
 Requires PHP: 5.2.4
 Tested up to: 4.7
 Stable tag: 4.3

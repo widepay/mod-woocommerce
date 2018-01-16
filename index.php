@@ -2,7 +2,7 @@
 /*
    Plugin Name: Woo Wide Pay
    Description: Com o Wide Pay, suas transações geram comprovantes com autenticação bancária, disponibilizados em sua conta e enviados por e-mail. Tudo de forma simples e rápida.
-   Version: 1.0
+   Version: 1.0.1
    Plugin URI: https://widepay.com/
    Author: Wide Soft
    Author URI: https://widepay.com/
@@ -204,6 +204,7 @@ function woo_widepay_module()
             } else {
                 $order_data = $this->extract_data_2($order_id);
             }
+            var_dump($order_data);
             // Parâmetros Wide Pay
             $widepayWalletNumber = trim($this->wallet_id);
             $widepayWalletToken = trim($this->wallet_token);
@@ -224,8 +225,8 @@ function woo_widepay_module()
             $firstname = $order_data['firstname'];
             $lastname = $order_data['lastname'];
             $email = $order_data['email'];
-            $address1 = $order_data['address_1'];
-            $address2 = $order_data['address_2'];
+            $address1 = (isset($order_data['address_1']))?$order_data['address_1']:$order_data['address1'];
+            $address2 = (isset($order_data['address_1']))?$order_data['address_1']:$order_data['address2'];
             $city = $order_data['city'];
             $state = $order_data['state'];
             $postcode = $order_data['postcode'];
@@ -471,8 +472,10 @@ function widepay_action_links($links)
 add_action('woocommerce_checkout_process', 'validate_cpf_cnpj');
 function validate_cpf_cnpj()
 {
+  var_dump(($_POST));
+
     $cpf_cnpf = preg_replace("/[^0-9]/", "", $_POST['billing_cpf_cnpj']);
-    if (strlen($cpf_cnpf) != 11 && strlen($cpf_cnpf) != 14)
+    if ($_POST['payment_method'] == 'widepay' && strlen($cpf_cnpf) != 11 && strlen($cpf_cnpf) != 14)
         wc_add_notice(__('O Campo CPF ou CNPJ está inválido'), 'error');
 }
 

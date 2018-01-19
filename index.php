@@ -2,8 +2,8 @@
 /*
    Plugin Name: Woo Wide Pay
    Description: Com o Wide Pay, suas transações geram comprovantes com autenticação bancária, disponibilizados em sua conta e enviados por e-mail. Tudo de forma simples e rápida.
-   Version: 1.0.2
-   Plugin URI: https://widepay.com/
+   Version: 1.0.3
+   Plugin URI: https://github.com/widepay/mod-woocommerce
    Author: Wide Soft
    Author URI: https://widepay.com/
    License: Under GPL2
@@ -458,8 +458,8 @@ function woo_widepay_module()
     }
 }
 
-add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'widepay_action_links');
-function widepay_action_links($links)
+add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'wwpp_widepay_action_links');
+function wwpp_widepay_action_links($links)
 {
     $links_edited = array(
         '<a href="' . get_admin_url() . 'admin.php?page=wc-settings&tab=checkout&section=widepay">Configurações</a>'
@@ -469,20 +469,19 @@ function widepay_action_links($links)
         '<a href="https://www.widepay.com/" target="_blank">Suporte Wide Pay</a>'
     ]);
     return $links_edited;
-
 }
 
-add_action('woocommerce_checkout_process', 'validate_cpf_cnpj');
-function validate_cpf_cnpj()
+add_action('woocommerce_checkout_process', 'wwpp_validate_cpf_cnpj');
+function wwpp_validate_cpf_cnpj()
 {
     $cpf_cnpf = preg_replace("/[^0-9]/", "", $_POST['billing_cpf_cnpj']);
     if ($_POST['payment_method'] == 'widepay' && strlen($cpf_cnpf) != 11 && strlen($cpf_cnpf) != 14)
         wc_add_notice(__('O Campo CPF ou CNPJ está inválido'), 'error');
 }
 
-add_action('woocommerce_checkout_update_order_meta', 'store_cpf_cnpj');
-add_action('woocommerce_before_pay_action', 'store_cpf_cnpj');
-function store_cpf_cnpj($param)
+add_action('woocommerce_checkout_update_order_meta', 'wwpp_store_cpf_cnpj');
+add_action('woocommerce_before_pay_action', 'wwpp_store_cpf_cnpj');
+function wwpp_store_cpf_cnpj($param)
 {
     if (version_compare(WOOCOMMERCE_VERSION, '3.0.0', '>=')) {
         $order_id = is_int($param) ? $param : $param->get_id();

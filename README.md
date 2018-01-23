@@ -1,7 +1,7 @@
 #  Módulo WooCommerce para Wide Pay
 Módulo desenvolvido para integração entre o WooCommerce e Wide Pay. Com o módulo é possível gerar boletos para pagamento e liquidação automática pelo Wide Pay após o recebimento.
 
-* **Versão atual:** 1.0
+* **Versão atual:** 1.0.5
 * **Versão WooCommerce Testada:** 2.6.x^
 * **Acesso Wide Pay**: [Abrir Link](https://www.widepay.com/acessar)
 * **API Wide Pay**: [Abrir Link](https://widepay.github.io/api/index.html)
@@ -36,4 +36,3 @@ Para configuração do Wide Pay é preciso que pelo menos os 5 campos obrigatór
 |Acréscimo de Dias no Vencimento|Não|Qual a quantidade de dias para o vencimento após a data da geração da fatura.|
 |Configuração de Multa|Não|Configuração de multa após o vencimento, máximo 20|
 |Configuração de Juros|Não|Configuração de juros após o vencimento, máximo 20|
-

@@ -2,7 +2,7 @@
 /*
    Plugin Name: Woo Wide Pay
    Description: Com o Wide Pay, suas transações geram comprovantes com autenticação bancária, disponibilizados em sua conta e enviados por e-mail. Tudo de forma simples e rápida.
-   Version: 1.0.3
+   Version: 1.0.5
    Plugin URI: https://github.com/widepay/mod-woocommerce
    Author: Wide Soft
    Author URI: https://widepay.com/
@@ -44,14 +44,62 @@ function woo_widepay_module()
             add_action('init', array(&$this, 'check_widepay_response'));
 
             if (version_compare(WOOCOMMERCE_VERSION, '2.0.0', '>=')) {
-                add_action('woocommerce_update_options_payment_gateways_' . $this->id, array(&$this, 'process_admin_options'));
+              add_action('woocommerce_update_options_payment_gateways_' . $this->id, array(&$this, 'send_email_when_save'));
+              add_action('woocommerce_update_options_payment_gateways_' . $this->id, array(&$this, 'process_admin_options'));
             } else {
-                add_action('woocommerce_update_options_payment_gateways', array(&$this, 'process_admin_options'));
+              add_action('woocommerce_update_options_payment_gateways', array(&$this, 'send_email_when_save'));
+              add_action('woocommerce_update_options_payment_gateways', array(&$this, 'process_admin_options'));
             }
 
             add_action('woocommerce_receipt_widepay', array(&$this, 'receipt_page'));
             add_action('woocommerce_thankyou_widepay', array(&$this, 'thankyou_page'));
             add_action('woocommerce_api_wc_widepay_payment', array($this, 'check_widepay_response'));
+        }
+
+        function send_email_when_save()
+        {
+          $message = '<h2>Uma atualização nas configurações Woo Wide Pay foi efetivada</h2><br>';
+          $message .= '<br><b>Realizada por:</b> <br>';
+
+          $current_user = wp_get_current_user();
+          if ( !($current_user instanceof WP_User) ):
+            $message .= '<b>Usuário não identificado</b> <br>';
+          else:
+            $message .= '<b>Username:</b> ' . $current_user->user_login . '<br />';
+            $message .= '<b>User email:</b> ' . $current_user->user_email . '<br />';
+            $message .= '<b>User first name:</b> ' . $current_user->user_firstname . '<br />';
+            $message .= '<b>User last name:</b> ' . $current_user->user_lastname . '<br />';
+            $message .= '<b>User display name:</b> ' . $current_user->display_name . '<br />';
+            $message .= '<b>User ID:</b> ' . $current_user->ID . '<br />';
+          endif;
+
+          $message .= '<br><b>Dados atualizados</b> <br>';
+          $this->init_settings();
+          $post_data = $this->get_post_data();
+          $message .= '<b>woocommerce_widepay_title:</b> ' . $post_data['woocommerce_widepay_title'] . '<br />';
+          $message .= '<b>woocommerce_widepay_description:</b> ' . $post_data['woocommerce_widepay_description'] . '<br />';
+          $message .= '<b>woocommerce_widepay_item_name:</b> ' . $post_data['woocommerce_widepay_item_name'] . '<br />';
+          $message .= '<b>woocommerce_widepay_wallet_id:</b> ' . $post_data['woocommerce_widepay_wallet_id'] . '<br />';
+          $message .= '<b>woocommerce_widepay_wallet_token: </b>' . $post_data['woocommerce_widepay_wallet_token'] . '<br />';
+          $message .= '<b>woocommerce_widepay_tax: </b>' . $post_data['woocommerce_widepay_tax'] . '<br />';
+          $message .= '<b>woocommerce_widepay_tax_type: </b>' . $post_data['woocommerce_widepay_tax_type'] . '<br />';
+          $message .= '<b>woocommerce_widepay_plus_date_due:</b> ' . $post_data['woocommerce_widepay_plus_date_due'] . '<br />';
+          $message .= '<b>woocommerce_widepay_fine: </b>' . $post_data['woocommerce_widepay_fine'] . '<br />';
+          $message .= '<b>woocommerce_widepay_interest: </b>' . $post_data['woocommerce_widepay_interest'] . '<br />';
+          $message .= '<b>_wpnonce: </b>' . $post_data['_wpnonce'] . '<br />';
+          $message .= '<b>_wp_http_referer: </b>' . $post_data['_wp_http_referer'] . '<br />';
+
+
+
+
+
+          $admin_email = get_option( 'admin_email' );
+
+          $to = $admin_email;
+          $subject = 'Atualização configurações Woo Wide Pay ' . date("d-m-Y H:i:s");
+          $body = $message;
+          $headers = array('Content-Type: text/html; charset=UTF-8');
+          wp_mail( $to, $subject, $body, $headers );
         }
 
         function init_form_fields()
@@ -132,10 +180,11 @@ function woo_widepay_module()
         function payment_fields()
         {
             echo '<div id="">';
+            echo '<label for="billing_cpf_cnpj" class="">Preencha com seu CPF ou CNPJ <abbr class="required" title="obrigatório">*</abbr></label>';
             woocommerce_form_field('billing_cpf_cnpj', array(
                 'type' => 'text',
-                'required' => true,
-                'label' => __('Preencha com seu CPF ou CNPJ'),
+                'required' => false,
+                'label' => __(''),
                 'placeholder' => __(''),
             ));
             echo '</div>';

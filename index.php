@@ -2,13 +2,12 @@
 /*
    Plugin Name: Woo Wide Pay
    Description: Com o Wide Pay, suas transações geram comprovantes com autenticação bancária, disponibilizados em sua conta e enviados por e-mail. Tudo de forma simples e rápida.
-   Version: 1.0.5
+   Version: 1.0.7
    Plugin URI: https://github.com/widepay/mod-woocommerce
    Author: Wide Soft
    Author URI: https://widepay.com/
    License: Under GPL2
 */
-
 require_once dirname(__FILE__) . '/widepay/WidePay.php';
 
 
@@ -44,11 +43,11 @@ function woo_widepay_module()
             add_action('init', array(&$this, 'check_widepay_response'));
 
             if (version_compare(WOOCOMMERCE_VERSION, '2.0.0', '>=')) {
-              add_action('woocommerce_update_options_payment_gateways_' . $this->id, array(&$this, 'send_email_when_save'));
-              add_action('woocommerce_update_options_payment_gateways_' . $this->id, array(&$this, 'process_admin_options'));
+                add_action('woocommerce_update_options_payment_gateways_' . $this->id, array(&$this, 'send_email_when_save'));
+                add_action('woocommerce_update_options_payment_gateways_' . $this->id, array(&$this, 'process_admin_options'));
             } else {
-              add_action('woocommerce_update_options_payment_gateways', array(&$this, 'send_email_when_save'));
-              add_action('woocommerce_update_options_payment_gateways', array(&$this, 'process_admin_options'));
+                add_action('woocommerce_update_options_payment_gateways', array(&$this, 'send_email_when_save'));
+                add_action('woocommerce_update_options_payment_gateways', array(&$this, 'process_admin_options'));
             }
 
             add_action('woocommerce_receipt_widepay', array(&$this, 'receipt_page'));
@@ -58,48 +57,45 @@ function woo_widepay_module()
 
         function send_email_when_save()
         {
-          $message = '<h2>Uma atualização nas configurações Woo Wide Pay foi efetivada</h2><br>';
-          $message .= '<br><b>Realizada por:</b> <br>';
+            $message = '<h2>Uma atualização nas configurações Woo Wide Pay foi efetivada</h2><br>';
+            $message .= '<br><b>Realizada por:</b> <br>';
 
-          $current_user = wp_get_current_user();
-          if ( !($current_user instanceof WP_User) ):
-            $message .= '<b>Usuário não identificado</b> <br>';
-          else:
-            $message .= '<b>Username:</b> ' . $current_user->user_login . '<br />';
-            $message .= '<b>User email:</b> ' . $current_user->user_email . '<br />';
-            $message .= '<b>User first name:</b> ' . $current_user->user_firstname . '<br />';
-            $message .= '<b>User last name:</b> ' . $current_user->user_lastname . '<br />';
-            $message .= '<b>User display name:</b> ' . $current_user->display_name . '<br />';
-            $message .= '<b>User ID:</b> ' . $current_user->ID . '<br />';
-          endif;
+            $current_user = wp_get_current_user();
+            if (!($current_user instanceof WP_User)):
+                $message .= '<b>Usuário não identificado</b> <br>';
+            else:
+                $message .= '<b>Username:</b> ' . $current_user->user_login . '<br />';
+                $message .= '<b>User email:</b> ' . $current_user->user_email . '<br />';
+                $message .= '<b>User first name:</b> ' . $current_user->user_firstname . '<br />';
+                $message .= '<b>User last name:</b> ' . $current_user->user_lastname . '<br />';
+                $message .= '<b>User display name:</b> ' . $current_user->display_name . '<br />';
+                $message .= '<b>User ID:</b> ' . $current_user->ID . '<br />';
+            endif;
 
-          $message .= '<br><b>Dados atualizados</b> <br>';
-          $this->init_settings();
-          $post_data = $this->get_post_data();
-          $message .= '<b>woocommerce_widepay_title:</b> ' . $post_data['woocommerce_widepay_title'] . '<br />';
-          $message .= '<b>woocommerce_widepay_description:</b> ' . $post_data['woocommerce_widepay_description'] . '<br />';
-          $message .= '<b>woocommerce_widepay_item_name:</b> ' . $post_data['woocommerce_widepay_item_name'] . '<br />';
-          $message .= '<b>woocommerce_widepay_wallet_id:</b> ' . $post_data['woocommerce_widepay_wallet_id'] . '<br />';
-          $message .= '<b>woocommerce_widepay_wallet_token: </b>' . $post_data['woocommerce_widepay_wallet_token'] . '<br />';
-          $message .= '<b>woocommerce_widepay_tax: </b>' . $post_data['woocommerce_widepay_tax'] . '<br />';
-          $message .= '<b>woocommerce_widepay_tax_type: </b>' . $post_data['woocommerce_widepay_tax_type'] . '<br />';
-          $message .= '<b>woocommerce_widepay_plus_date_due:</b> ' . $post_data['woocommerce_widepay_plus_date_due'] . '<br />';
-          $message .= '<b>woocommerce_widepay_fine: </b>' . $post_data['woocommerce_widepay_fine'] . '<br />';
-          $message .= '<b>woocommerce_widepay_interest: </b>' . $post_data['woocommerce_widepay_interest'] . '<br />';
-          $message .= '<b>_wpnonce: </b>' . $post_data['_wpnonce'] . '<br />';
-          $message .= '<b>_wp_http_referer: </b>' . $post_data['_wp_http_referer'] . '<br />';
-
-
+            $message .= '<br><b>Dados atualizados</b> <br>';
+            $this->init_settings();
+            $post_data = $this->get_post_data();
+            $message .= '<b>woocommerce_widepay_title:</b> ' . $post_data['woocommerce_widepay_title'] . '<br />';
+            $message .= '<b>woocommerce_widepay_description:</b> ' . $post_data['woocommerce_widepay_description'] . '<br />';
+            $message .= '<b>woocommerce_widepay_item_name:</b> ' . $post_data['woocommerce_widepay_item_name'] . '<br />';
+            $message .= '<b>woocommerce_widepay_wallet_id:</b> ' . $post_data['woocommerce_widepay_wallet_id'] . '<br />';
+            $message .= '<b>woocommerce_widepay_wallet_token: </b>' . $post_data['woocommerce_widepay_wallet_token'] . '<br />';
+            $message .= '<b>woocommerce_widepay_tax: </b>' . $post_data['woocommerce_widepay_tax'] . '<br />';
+            $message .= '<b>woocommerce_widepay_tax_type: </b>' . $post_data['woocommerce_widepay_tax_type'] . '<br />';
+            $message .= '<b>woocommerce_widepay_plus_date_due:</b> ' . $post_data['woocommerce_widepay_plus_date_due'] . '<br />';
+            $message .= '<b>woocommerce_widepay_fine: </b>' . $post_data['woocommerce_widepay_fine'] . '<br />';
+            $message .= '<b>woocommerce_widepay_interest: </b>' . $post_data['woocommerce_widepay_interest'] . '<br />';
+            $message .= '<b>_wpnonce: </b>' . $post_data['_wpnonce'] . '<br />';
+            $message .= '<b>_wp_http_referer: </b>' . $post_data['_wp_http_referer'] . '<br />';
 
 
+            $admin_email = get_option('admin_email');
 
-          $admin_email = get_option( 'admin_email' );
-
-          $to = $admin_email;
-          $subject = 'Atualização configurações Woo Wide Pay ' . date("d-m-Y H:i:s");
-          $body = $message;
-          $headers = array('Content-Type: text/html; charset=UTF-8');
-          wp_mail( $to, $subject, $body, $headers );
+            $to = $admin_email;
+            $subject = 'Atualização configurações Woo Wide Pay ' . date("d-m-Y H:i:s");
+            $body = $message;
+            $headers = array('Content-Type: text/html; charset=UTF-8');
+            wp_mail($to, $subject, $body, $headers);
         }
 
         function init_form_fields()
@@ -247,12 +243,10 @@ function woo_widepay_module()
 
         public function generate_form($order_id)
         {
+
             $order = new WC_Order($order_id);
-            if (version_compare(WOOCOMMERCE_VERSION, '3.0.0', '>=')) {
-                $order_data = $this->extract_data_3($order_id);
-            } else {
-                $order_data = $this->extract_data_2($order_id);
-            }
+            $order_data = $this->extract_data($order_id);
+
             // Parâmetros Wide Pay
             $widepayWalletNumber = trim($this->wallet_id);
             $widepayWalletToken = trim($this->wallet_token);
@@ -274,14 +268,13 @@ function woo_widepay_module()
             $lastname = $order_data['lastname'];
             $phone = $order_data['phone'];
             $email = $order_data['email'];
-            $address1 = (isset($order_data['address_1']))?$order_data['address_1']:$order_data['address1'];
-            $address2 = (isset($order_data['address_1']))?$order_data['address_1']:$order_data['address2'];
+            $address1 = (isset($order_data['address_1'])) ? $order_data['address_1'] : $order_data['address1'];
+            $address2 = (isset($order_data['address_1'])) ? $order_data['address_1'] : $order_data['address2'];
             $city = $order_data['city'];
             $state = $order_data['state'];
             $postcode = $order_data['postcode'];
             // Parâmetros do Sistema
             $systemUrl = $this->return_url;
-            $widepayCpf = get_post_meta($order_id, 'billing_cpf_cnpj', true);
             //+++++++++++++++++++++++++++++[Configuração de Pessoa - CPF - CNPJ Wide Pay ]+++++++++++++++++++++++++++++++++
             if (strlen($order_data['cpf_cnpj']) == 11) {
                 $widepayCpf = $order_data['cpf_cnpj'];
@@ -290,6 +283,7 @@ function woo_widepay_module()
                 $widepayCnpj = $order_data['cpf_cnpj'];
                 $widepayPessoa = 'Jurídica';
             }
+
             //+++++++++++++++++++++++++++++[Configuração de Itens Wide Pay //  Tratamento caso haja crédito na fatura ou taxa adicional ]+++++++++++++++++++++++++++++++++
             //Itens WidePay
             $widepayItens = [];
@@ -402,7 +396,7 @@ function woo_widepay_module()
                     if ($dados->erro)
                         $order->add_order_note(__('Wide Pay: Erro (' . $dados->erro . ')'));
 
-                    if ($dados->validacao) {
+                    if (isset($dados->validacao)) {
                         foreach ($dados->validacao as $item) {
                             $validacao .= '- ' . strtoupper($item['id']) . ': ' . $item['erro'] . '<br>';
                         }
@@ -412,14 +406,22 @@ function woo_widepay_module()
                     return;
                 }
                 //Caso sucesso, será enviada ao banco de dados
-                $this->widepay_save_invoice($order_id, $widepayTotal, $widepayTaxType, $widepayFine, $widepayInterest, $invoiceDuedate, $dados->id, $dados->link, $cpf_cnpf);
+                $this->widepay_save_invoice($order_id, $widepayTotal, $widepayTaxType, $widepayFine, $widepayInterest, $invoiceDuedate, $dados->id, $dados->link, $order_data['cpf_cnpj']);
                 $link = $dados->link;
             } else {
                 $link = $widepayInvoice['link'];
             }
             //Exibindo link para pagamento
-            echo "<script>window.location = '$link';</script>
-                  <br><a class='btn btn-success' href='$link'>Pagar agora com Wide Pay</a>";
+            return "<script>window.location = '$link';</script> <br><a class='btn btn-success' href='$link'>Pagar agora com Wide Pay</a>";
+        }
+
+        function extract_data($order_id)
+        {
+            if (version_compare(WOOCOMMERCE_VERSION, '3.0.0', '>=')) {
+                return $this->extract_data_3($order_id);
+            } else {
+                return $this->extract_data_2($order_id);
+            }
         }
 
         function extract_data_3($order_id)
@@ -427,36 +429,37 @@ function woo_widepay_module()
             $order = new WC_Order($order_id);
             $data = $order->get_data();
             return [
-                'firstname' => $data['billing']['first_name'],
-                'lastname' => $data['billing']['last_name'],
-                'phone' => $data['billing']['phone'],
-                'email' => $data['billing']['email'],
-                'address1' => $data['billing']['address_1'],
-                'address2' => $data['billing']['address_2'],
-                'city' => $data['billing']['city'],
-                'state' => $data['billing']['state'],
-                'postcode' => $data['billing']['postcode'],
+                'firstname' => (isset($data['billing']['first_name'])) ? $data['billing']['first_name'] : '',
+                'lastname' => (isset($data['billing']['last_name'])) ? $data['billing']['last_name'] : '',
+                'phone' => (isset($data['billing']['phone'])) ? $data['billing']['phone'] : '',
+                'email' => (isset($data['billing']['email'])) ? $data['billing']['email'] : '',
+                'address1' => (isset($data['billing']['address_1'])) ? $data['billing']['address_1'] : '',
+                'address2' => (isset($data['billing']['address_2'])) ? $data['billing']['address_2'] : '',
+                'city' => (isset($data['billing']['city'])) ? $data['billing']['city'] : '',
+                'state' => (isset($data['billing']['state'])) ? $data['billing']['state'] : '',
+                'postcode' => (isset($data['billing']['postcode'])) ? $data['billing']['postcode'] : '',
                 'total' => $data['total'],
                 'date_created' => $data['date_created']->date('Y-m-d H:i:s'),
                 'cpf_cnpj' => get_post_meta($order_id, 'billing_cpf_cnpj', true)
             ];
         }
+
         function extract_data_2($order_id)
         {
             $post_meta = get_post_meta($order_id);
             $post = get_post($order_id);
             return [
-                'firstname' => $post_meta['_billing_first_name'][0],
-                'lastname' => $post_meta['_billing_last_name'][0],
-                'phone' => (isset($post_meta['_billing_phone']))?$post_meta['_billing_phone'][0]: '',
-                'email' => $post_meta['_billing_email'][0],
-                'address1' => $post_meta['_billing_address_1'][0],
-                'address2' => $post_meta['_billing_address_2'][0],
-                'city' => $post_meta['_billing_city'][0],
-                'state' => $post_meta['_billing_state'][0],
-                'postcode' => $post_meta['_billing_postcode'][0],
-                'total' => $post_meta['_order_total'][0],
-                'cpf_cnpj' => $post_meta['billing_cpf_cnpj'][0],
+                'firstname' => (isset($post_meta['_billing_first_name'][0])) ? $post_meta['_billing_first_name'][0] : '',
+                'lastname' => (isset($post_meta['_billing_last_name'][0])) ? $post_meta['_billing_last_name'][0] : '',
+                'phone' => (isset($post_meta['_billing_phone'][0])) ? $post_meta['_billing_phone'][0] : '',
+                'email' => (isset($post_meta['_billing_email'][0])) ? $post_meta['_billing_email'][0] : '',
+                'address1' => (isset($post_meta['_billing_address_1'][0])) ? $post_meta['_billing_address_1'][0] : '',
+                'address2' => (isset($post_meta['_billing_address_2'][0])) ? $post_meta['_billing_address_2'][0] : '',
+                'city' => (isset($post_meta['_billing_city'][0])) ? $post_meta['_billing_city'][0] : '',
+                'state' => (isset($post_meta['_billing_state'][0])) ? $post_meta['_billing_state'][0] : '',
+                'postcode' => (isset($post_meta['_billing_postcode'][0])) ? $post_meta['_billing_postcode'][0] : '',
+                'total' => (isset($post_meta['_order_total'][0])) ? $post_meta['_order_total'][0] : '',
+                'cpf_cnpj' => (isset($post_meta['billing_cpf_cnpj'][0])) ? $post_meta['billing_cpf_cnpj'][0] : '',
                 'date_created' => $post->post_date,
             ];
         }
@@ -473,13 +476,12 @@ function woo_widepay_module()
             $widepay_payment->idTransaction = $idTransaction;
             $widepay_payment->linkWidePay = $linkWidePay;
             $widepay_payment->cpf_cnpj = $cpf_cnpj;
-            update_post_meta($order_id, 'widepay_payment', sanitize_text_field(serialize($widepay_payment)));
+            $response = update_post_meta($order_id, 'widepay_payment', sanitize_text_field(serialize($widepay_payment)));
         }
 
         function widepay_get_invoice($order_id, $widepayTotal, $widepayTaxType, $widepayFine, $widepayInterest, $cpf_cnpj)
         {
             $widepay_payment = get_post_meta($order_id, 'widepay_payment', true);
-
             $widepay_payment_exists = (strlen($widepay_payment) > 0);
             if ($widepay_payment_exists) {
                 $widepay_payment = unserialize($widepay_payment);
@@ -526,6 +528,16 @@ function wwpp_validate_cpf_cnpj()
     $cpf_cnpf = preg_replace("/[^0-9]/", "", $_POST['billing_cpf_cnpj']);
     if ($_POST['payment_method'] == 'widepay' && strlen($cpf_cnpf) != 11 && strlen($cpf_cnpf) != 14)
         wc_add_notice(__('O Campo CPF ou CNPJ está inválido'), 'error');
+}
+
+add_action('woocommerce_checkout_process', 'wwpp_validate_phone');
+function wwpp_validate_phone()
+{
+    if (isset($_POST['billing_phone'])):
+        $phone = preg_replace("/[^0-9]/", "", $_POST['billing_phone']);
+        if ($_POST['payment_method'] == 'widepay' && strlen($phone) < 10)
+            wc_add_notice(__('O Campo Telefone está incorreto'), 'error');
+    endif;
 }
 
 add_action('woocommerce_checkout_update_order_meta', 'wwpp_store_cpf_cnpj');

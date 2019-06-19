@@ -1,7 +1,7 @@
 #  Módulo WooCommerce para Wide Pay
 Módulo desenvolvido para integração entre o WooCommerce e Wide Pay. Com o módulo é possível gerar boletos para pagamento e liquidação automática pelo Wide Pay após o recebimento.
 
-* **Versão atual:** 1.0.7
+* **Versão atual:** 1.0.8
 * **Versão WooCommerce Testada:** 2.6.x^
 * **Acesso Wide Pay**: [Abrir Link](https://www.widepay.com/acessar)
 * **API Wide Pay**: [Abrir Link](https://widepay.github.io/api/index.html)

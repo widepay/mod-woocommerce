@@ -47,3 +47,10 @@ Para configuração do Wide Pay é preciso que pelo menos os 5 campos obrigatór
 2. Após o download concluído, acesse o menu de plugins do WordPress, clique em Adicionar. Selecione o arquivo *.zip*. Clique em Upload.
 3. Clique em Instalar.
 4. Clique em Ativar.
+
+== Changelog ==
+
+= 1.0.8 =
+*Atualizado em - 19 Junho 2019*
+
+* Habilitado função de Cartão de Crédito como meio de pagamento.

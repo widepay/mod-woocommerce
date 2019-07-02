@@ -4,7 +4,7 @@ Tags: ecommerce, woocommerce, widepay, pagamento, pagamentos, payment
 Requires at least: 4.0
 Requires PHP: 5.2.4
 Tested up to: 4.9
-Stable tag: 1.0.8
+Stable tag: 1.0.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,7 +15,7 @@ Plugin de integração Wide Pay e WooCommerce. Gere boletos com ótimas tarifas 
 #  Módulo WooCommerce para Wide Pay
 Módulo desenvolvido para integração entre o WooCommerce e Wide Pay. Com o módulo é possível gerar boletos para pagamento e liquidação automática pelo Wide Pay após o recebimento.
 
-* **Versão atual:** 1.0.8
+* **Versão atual:** 1.0.9
 * **Versão WooCommerce Testada:** 2.6.x^
 * **Acesso Wide Pay**: [Abrir Link](https://www.widepay.com/acessar)
 * **API Wide Pay**: [Abrir Link](https://widepay.github.io/api/index.html)
@@ -49,6 +49,11 @@ Para configuração do Wide Pay é preciso que pelo menos os 5 campos obrigatór
 4. Clique em Ativar.
 
 == Changelog ==
+
+= 1.0.9 =
+*Atualizado em - 02 Julho 2019*
+
+* Adicionando possíbilidade de colocar o número da fatura na descrição do WidePay.
 
 = 1.0.8 =
 *Atualizado em - 19 Junho 2019*

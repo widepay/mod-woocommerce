@@ -2,7 +2,7 @@
 /*
    Plugin Name: Woo Wide Pay
    Description: Com o Wide Pay, suas transações geram comprovantes com autenticação bancária, disponibilizados em sua conta e enviados por e-mail. Tudo de forma simples e rápida.
-   Version: 1.0.8
+   Version: 1.0.9
    Plugin URI: https://github.com/widepay/mod-woocommerce
    Author: Wide Pay
    Author URI: https://widepay.com/
@@ -119,8 +119,8 @@ function woo_widepay_module()
                 'item_name' => array(
                     'title' => __('Item na fatura:'),
                     'type' => 'text',
-                    'description' => __('Descrição do item presente na fatura Wide Pay'),
-                    'default' => __('Compra realizada no site: ' . get_bloginfo('name'))),
+                    'description' => __('Descrição do item presente na fatura Wide Pay<br>Preencha com: {id_fatura}, será substituído pelo id da fatura.'),
+                    'default' => __('Fatura referente ao pedido: {id_fatura}.')),
                 'wallet_id' => array(
                     'title' => __('ID da Carteira:'),
                     'type' => 'text',
@@ -261,7 +261,7 @@ function woo_widepay_module()
             // Parâmetros da Fatura
             $invoiceId = $order_id;
             $invoiceDuedate = $order_data['date_created'];
-            $description = $this->item_name;
+            $description = str_replace('{id_fatura}',$order_id, $this->item_name);
             $amount = round((double)$order_data['total'], 2);
             // Parâmetros do Cliente
             $firstname = $order_data['firstname'];
@@ -412,7 +412,12 @@ function woo_widepay_module()
                 $link = $widepayInvoice['link'];
             }
             //Exibindo link para pagamento
-            return "<script>window.location = '$link';</script> <br><a class='btn btn-success' href='$link'>Pagar agora com Wide Pay</a>";
+            return "<script>
+            window.open(
+                '$link',
+                '_blank'
+            );</script><br>
+            <a class='btn btn-success' target='_blank' href='$link'>Pagar agora com Wide Pay</a>";
         }
 
         function extract_data($order_id)

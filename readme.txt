@@ -3,7 +3,7 @@ Contributors: widepay, gabrielpasche
 Tags: ecommerce, woocommerce, widepay, pagamento, pagamentos, payment
 Requires at least: 4.0
 Requires PHP: 5.2.4
-Tested up to: 5.2.4
+Tested up to: 5.5
 Stable tag: 1.0.11
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html

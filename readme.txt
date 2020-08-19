@@ -4,7 +4,7 @@ Tags: ecommerce, woocommerce, widepay, pagamento, pagamentos, payment
 Requires at least: 4.0
 Requires PHP: 5.2.4
 Tested up to: 5.5
-Stable tag: 1.0.11
+Stable tag: 1.0.12
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,6 +49,11 @@ Para configuração do Wide Pay é preciso que pelo menos os 5 campos obrigatór
 4. Clique em Ativar.
 
 == Changelog ==
+
+= 1.0.12 =
+*Atualizado em - 19 Agosto 2020*
+
+* Enviando e-mail pelo servidor Wide Pay
 
 = 1.0.11 =
 *Atualizado em - 14 Agosto 2020*

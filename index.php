@@ -2,7 +2,7 @@
 /*
    Plugin Name: Woo Wide Pay
    Description: Com o Wide Pay, suas transações geram comprovantes com autenticação bancária, disponibilizados em sua conta e enviados por e-mail. Tudo de forma simples e rápida.
-   Version: 1.0.11
+   Version: 1.0.12
    Plugin URI: https://github.com/widepay/mod-woocommerce
    Author: Wide Pay
    Author URI: https://widepay.com/
@@ -474,7 +474,8 @@ function woo_widepay_module()
                         'desconto' => 0,
                         'multa' => $widepayFine,
                         'juros' => $widepayInterest
-                    )
+                    ),
+                    'enviar' => 'E-mail'
                 );
                 // Enviando solicitação ao Wide Pay
                 $dados = $wp->api('recebimentos/cobrancas/adicionar', $widepayData);
